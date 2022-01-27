@@ -54,10 +54,13 @@ func NewTimePhaserFunc(sleepPeriod func(Phase)) *TimePhaser {
 
 func (t *TimePhaser) Start() {
 	t.out <- DealPhase
+	fmt.Println("DealPhase")
 	t.sleep(DealPhase)
 	t.out <- ResponsePhase
+	fmt.Println("ResponsePhase")
 	t.sleep(ResponsePhase)
 	t.out <- JustifPhase
+	fmt.Println("JustifPhase")
 	t.sleep(JustifPhase)
 	t.out <- FinishPhase
 }
@@ -143,15 +146,21 @@ func (p *Protocol) Start() {
 				return
 			}
 		case newDeal := <-p.board.IncomingDeal():
+			fmt.Printf("IncomingDeal.verify: %+v\n", newDeal)
 			if err := p.verify(&newDeal); err == nil {
+				fmt.Println("IncomingDeal.verify ok")
 				deals.Push(&newDeal)
 			}
 		case newResp := <-p.board.IncomingResponse():
+			fmt.Printf("IncomingResponse.verify: %+v\n", newResp)
 			if err := p.verify(&newResp); err == nil {
+				fmt.Println("IncomingResponse.verify ok")
 				resps.Push(&newResp)
 			}
 		case newJust := <-p.board.IncomingJustification():
+			fmt.Printf("IncomingJustification.verify: %+v\n", newJust)
 			if err := p.verify(&newJust); err == nil {
+				fmt.Println("IncomingJustification.verify ok")
 				justifs.Push(&newJust)
 			}
 		}
