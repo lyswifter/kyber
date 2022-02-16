@@ -143,21 +143,21 @@ func (p *Protocol) Start() {
 				return
 			}
 		case newDeal := <-p.board.IncomingDeal():
-			p.Info("IncomingDeal.verify: %+v", newDeal)
+			p.Info("incoming deal", newDeal)
 			if err := p.verify(&newDeal); err == nil {
-				p.Info("IncomingDeal.verify", "ok")
+				p.Info("incoming deal.verify", "ok")
 				deals.Push(&newDeal)
 			}
 		case newResp := <-p.board.IncomingResponse():
-			p.Info("IncomingResponse.verify: %+v", newResp)
+			p.Info("incoming response", newResp)
 			if err := p.verify(&newResp); err == nil {
-				p.Info("IncomingResponse.verify", "ok")
+				p.Info("incoming response.verify", "ok")
 				resps.Push(&newResp)
 			}
 		case newJust := <-p.board.IncomingJustification():
-			p.Info("IncomingJustification.verify: %+v", newJust)
+			p.Info("incoming justification", newJust)
 			if err := p.verify(&newJust); err == nil {
-				p.Info("IncomingJustification.verify", "ok")
+				p.Info("incoming justification.verify", "ok")
 				justifs.Push(&newJust)
 			}
 		}
